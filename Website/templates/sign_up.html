@@ -1,0 +1,163 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %}
+{% block content%}
+<h1>Sign up</h1>
+<form method="POST">
+
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input 
+        type="text"
+        placeholder="Enter your first Name"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input 
+        type="text"
+        placeholder="Enter your last Name"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+        required
+        >
+    </div>
+   
+
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input 
+        type="number" 
+        placeholder="Enter your age"
+        class="form-control"
+        id="age"
+        name="age"
+        min="1"
+        required
+        >
+    </div>
+
+    <!-- COUNTRY SELECTOR -->
+    <div class="form-group">
+        <label for="country">Country</label>
+        <select
+            class="form-control"
+            id="country"
+            name="country"
+            required
+        >
+            <option value=""disabled selected>Select your country</option>
+            <option value="Anguilla">Anguilla</option>
+            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+            <option value="Aruba">Aruba</option>
+            <option value="The Bahamas">The Bahamas</option>
+            <option value="Barbados">Barbados</option>
+            <option value="British Virgin Islands">British Virgin Islands</option>
+            <option value="Cayman Islands">Cayman Islands</option>
+            <option value="Cuba">Cuba</option>
+            <option value="Dominica">Dominica</option>
+            <option value="Dominican Republic">Dominican Republic</option>
+            <option value="Grenada">Grenada</option>
+            <option value="Guadeloupe">Guadeloupe</option>
+            <option value="Haiti">Haiti</option>
+            <option value="Jamaica">Jamaica</option>
+            <option value="Martinique">Martinique</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+            <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+            <option value="Saint Lucia">Saint Lucia</option>
+            <option value="Saint Martin">Saint Martin</option>
+            <option value="Sint Maarten">Sint Maarten</option>
+            <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+            <option value="Sint Eustatius">Sint Eustatius</option>
+            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+            <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+            <option value="United States of America Virgin Islands">United States of America Virgin Islands</option>
+        </select>
+    </div>
+
+    <!-- EDUCATION LEVEL -->
+    <div class="form-group">
+        <label for="education">Education Level</label>
+        <select
+            class="form-control"
+            id="education"
+            name="education"
+            required
+        >
+            <option value=""disabled selected>Select your education level</option>
+            <option value="Primary">Primary</option>
+            <option value="Secondary">Secondary</option>
+            <option value="Tertiary">Tertiary</option>
+        </select>
+    </div>
+
+    <!--INTEREST SELECTOR -->
+    <div class="form-group">
+        <label>Interests</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="interests" value="Business"> Business</label>
+            <label><input type="checkbox" name="interests" value="Finance"> Finance</label>
+            <label><input type="checkbox" name="interests" value="Technology"> Technology</label>
+            <label><input type="checkbox" name="interests" value="Arts"> Arts</label>
+            <label><input type="checkbox" name="interests" value="Engineering"> Engineering</label>
+            <label><input type="checkbox" name="interests" value="Medicine"> Medicine</label>
+            <label><input type="checkbox" name="interests" value="Science"> Science</label>
+            <label><input type="checkbox" name="interests" value="Agriculture"> Agriculture</label>
+            <label><input type="checkbox" name="interests" value="Environment"> Environment</label>
+            <label><input type="checkbox" name="interests" value="Leadership"> Leadership</label>
+            <label><input type="checkbox" name="interests" value="Social Impact"> Social Impact</label>
+            <label><input type="checkbox" name="interests" value="Media"> Media</label>
+            <label><input type="checkbox" name="interests" value="Tourism"> Tourism</label>
+    </div>
+
+    <!--EMAIL AND PASSWORD -->
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+        type="email" 
+        placeholder="example@email.com"
+        class="form-control"
+        id="email"
+        name="email"
+        required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="password1">Password</label>
+        <input 
+        type="password" 
+        placeholder="Enter password"
+        class="form-control"
+        id="password1"
+        name="password1"
+        required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="password2">Confirm</label>
+        <input 
+        type="password" 
+        placeholder="Confirm password"
+        class="form-control"
+        id="password2"
+        name="password2"
+        required
+        >
+    </div>
+
+        
+    <button type="submit" class="btn btn-primary">
+        Sign up
+    </button>
+</form>
+
+
+
+{% endblock %}

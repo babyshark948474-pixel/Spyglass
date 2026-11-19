@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Browse{% endblock %}
+{% block content %}
+<h1>Look for the treasure ye seek!</h1>
+
+<form method="GET" class="form-row mb-4">
+  <div class="col-md-4 mb-2">
+    <input type="text" name="q" value="{{ q }}" class="form-control"
+           placeholder="Search title or description">
+  </div>
+
+  <div class="col-md-2 mb-2">
+    <select name="type" class="form-control">
+      <option value="">All types</option>
+      {% for t in types %}
+        <option value="{{ t }}" {% if t == opp_type %}selected{% endif %}>{{ t }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2 mb-2">
+    <select name="category" class="form-control">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2 mb-2">
+    <select name="country" class="form-control">
+      <option value="">All countries</option>
+      {% for c in countries %}
+        <option value="{{ c }}" {% if c == country %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2 mb-2">
+    <select name="deadline" class="form-control">
+      <option value="">Any deadline</option>
+      <option value="7"  {% if deadline == '7' %}selected{% endif %}>Within 7 days</option>
+      <option value="30" {% if deadline == '30' %}selected{% endif %}>Within 30 days</option>
+      <option value="90" {% if deadline == '90' %}selected{% endif %}>Within 90 days</option>
+    </select>
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Apply filters</button>
+    <a href="/browse" class="btn btn-secondary">Clear</a>
+  </div>
+</form>
+
+<p>{{ results|length }} result{{ '' if results|length == 1 else 's' }}</p>
+
+{% for opp in results %}
+  <div class="opportunity-card">
+    <h2>{{ opp.title }}</h2>
+    <p><strong>Type:</strong> {{ opp.opportunity_type }}</p>
+    <p><strong>Category:</strong> {{ opp.category }}</p>
+    <p><strong>Country:</strong> {{ opp.country }}</p>
+    <p><strong>Minimum Age:</strong>{{ opp.min_age }}</p>
+    <p><strong>Maximum Age:</strong>{{ opp.max_age }}</p>
+    {% if opp.opportunity_description %}<p>{{ opp.opportunity_description }}</p>{% endif %}
+    {% if opp.deadline %}<p><strong>Deadline:</strong> {{ opp.deadline.strftime('%B %d, %Y') }}</p>{% endif %}
+    {% if opp.application_link %}<a href="{{ opp.application_link }}" target="_blank">Apply here</a>{% endif %}
+  </div>
+{% else %}
+  <p>No opportunities match those filters.</p>
+{% endfor %}
+{% endblock %}

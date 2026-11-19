@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}SPYGLASS{% endblock %} 
+{% block content%}
+    <h1>SPYGLASS</h1>
+
+    <p>Traverse the seven seas and find what opportunities await</p>
+    <form method="POST">
+        {% set u = current_user if current_user.is_authenticated else none %}
+    {% set my_interests = u.interest | map(attribute='interests') | list if u else [] %}
+
+    <!-- BASIC USER INFO -->
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" placeholder="Enter your age" class="form-control"
+           id="age" name="age" min="1" required
+           value="{{ u.age if u and u.age else '' }}">
+    </div>
+
+    <!-- COUNTRY SELECTOR -->
+    <div class="form-group">
+        <label for="country">Country</label>
+        <select class="form-control" id="country" name="country" required>
+        <option value="" disabled {% if not (u and u.country) %}selected{% endif %}>Select your country</option>
+        {% for c in countries %}
+            <option value="{{ c }}" {% if u and u.country == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+        </select>
+    </div>
+
+    <!-- EDUCATION LEVEL -->
+    <div class="form-group">
+        <label for="education">Education Level</label>
+        <select class="form-control" id="education" name="education" required>
+        <option value="" disabled {% if not (u and u.education_level) %}selected{% endif %}>Select your education level</option>
+        {% for e in education_levels %}
+            <option value="{{ e }}" {% if u and u.education_level == e %}selected{% endif %}>{{ e }}</option>
+        {% endfor %}
+        </select>
+    </div>
+
+    <!-- INTEREST SELECTOR -->
+    <div class="form-group">
+    <label>Interests</label>
+    <div class="checkbox-group">
+        {% for i in interests_list %}
+            <label><input type="checkbox" name="interests" value="{{ i }}"
+                {% if i in my_interests %}checked{% endif %}> {{ i }}</label>
+        {% endfor %}
+    </div>
+    </div>
+       
+        <button type="submit" class="btn btn-primary">
+            Set sail!
+        </button>
+    </form>
+{% endblock %}

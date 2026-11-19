@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}SPYGLASS{% endblock %}
+
+{% block content %}
+<h1>X marks the spot!</h1>
+
+{% if results %}
+<div class="opportunities-list">
+  {% for result in results %}
+    {% set opp = result.opportunity %}
+    <div class="opportunity-card">
+      <div class="match-badge">
+        {{result.score}}/{{result.total}} match
+      </div>
+      <h2>{{ opp.title }}</h2>
+      <p><strong>Type:</strong>{{ opp.opportunity_type }}</p>
+      <p><strong>Category:</strong> {{ opp.category }}</p>
+      <p><strong>Country:</strong> {{ opp.country }}</p>
+
+      {% if result.matched_criteria %}
+        <p class="matched-on">
+          Matched on: {{result.matched_criteria | join(', ')}}
+        </p>
+      {% endif %}
+
+
+      {% if opp.opportunity_description %}
+        <p>{{ opp.opportunity_description }}</p>
+      {% endif %}
+
+      {% if opp.deadline %}
+        <p><strong>Deadline:</strong> {{ opp.deadline.strftime('%B %d, %Y') }}</p>
+      {% endif %}
+
+      {% if opp.application_link %}
+        <a href="{{ opp.application_link }}" target="_blank">Apply here</a>
+      {% endif %}
+   </div>
+    {% endfor %}
+</div>
+  {% else %}
+    <p>No opportunities match your profile right now. Check back soon!</p>
+  {% endif %}
+
+
+<a href="/">Search again</a>
+{% endblock %}
