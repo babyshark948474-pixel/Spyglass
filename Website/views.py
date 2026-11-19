@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from . import db
-from .models import Opportunities
-from datetime import date, timedelta
+from .models import Opportunities, Submissions
+from datetime import date, timedelta, datetime
 from sqlalchemy import or_
-from .constants import COUNTRIES, EDUCATION_LEVELS, INTERESTS
+from .constants import COUNTRIES, EDUCATION_LEVELS, INTERESTS, OPPORTUNITY_TYPES
 
 views = Blueprint('views', __name__)
 
@@ -112,6 +112,63 @@ def browse():
         country=country, deadline=deadline,
     )
 
+@views.route('/submit', methods=['GET', 'POST'])
+def submit():
+    if request.method == 'POST':
+        f = request.form
+        org = f.get('organization_name', '').strip()
+        title = f.get('title', '').strip()
+        opp_type = f.get('opportunity_type')
+        category = f.get('category')
+        country = f.get('country')
+        education = f.get('education_level') or None   
+        description = f.get('description', '').strip()
+        link = f.get('application_link', '').strip()
+        min_age = f.get('min_age', type=int)
+        max_age = f.get('max_age', type=int)
+
+        deadline = None
+        if f.get('deadline'):
+            try:
+                deadline = datetime.strptime(f['deadline'], '%Y-%m-%d').date()
+            except ValueError:
+                flash('That deadline is not a valid date.', category='error')
+                return render_template('submit.html', **form_options(), form=f)
+
+        error = None
+        if not org or not title:
+            error = 'Organization name and title are required.'
+        elif opp_type not in OPPORTUNITY_TYPES or category not in INTERESTS \
+                or (country not in COUNTRIES and country != 'Caribbean'):
+            error = 'Please choose a type, category and country from the lists.'
+        elif min_age is not None and max_age is not None and min_age > max_age:
+            error = 'Minimum age cannot be greater than maximum age.'
+        elif deadline and deadline < date.today():
+            error = 'The deadline has already passed.'
+        elif not link.startswith(('http://', 'https://')):
+            error = 'The application link must start with http:// or https://'
+
+        if error:
+            flash(error, category='error')
+            return render_template('submit.html', **form_options(), form=f)
+
+        db.session.add(Submissions(
+            organization_name=org, title=title, opportunity_type=opp_type,
+            category=category, country=country, min_age=min_age, max_age=max_age,
+            education_level=education, description=description,
+            application_link=link, deadline=deadline,
+        ))
+        db.session.commit()
+        flash('Thank you! Your opportunity was submitted and will appear once it is reviewed.',
+              category='success')
+        return redirect(url_for('views.submit'))
+
+    return render_template('submit.html', **form_options(), form={})
+
+
+def form_options():
+    return dict(countries=COUNTRIES, education_levels=EDUCATION_LEVELS,
+                categories=INTERESTS, types=OPPORTUNITY_TYPES)
          
         
 

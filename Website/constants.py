@@ -16,3 +16,5 @@ INTERESTS = [
     'Science', 'Agriculture', 'Environment', 'Leadership', 'Social Impact',
     'Media', 'Tourism',
 ]
+
+OPPORTUNITY_TYPES = ['Scholarship', 'Internship', 'Training','Fellowship', 'Grant', 'Competition', 'Volunteering']

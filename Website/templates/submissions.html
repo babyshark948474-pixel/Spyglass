@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Submit an Opportunity{% endblock %}
+{% block content %}
+<h1>Submit an opportunity!</h1>
+<p>Are you an organization offering a scholarship, internship, grant or training? Tell us about it and, once reviewed, it will be shown to young people in the Caribbean who qualify</p>
+
+<form method="POST">
+
+  <div class="form-group">
+    <label for="organization_name">Organization name</label>
+    <input type="text" class="form-control" id="organization_name" name="organization_name"
+           value="{{ form.get('organization_name', '') }}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Opportunity title</label>
+    <input type="text" class="form-control" id="title" name="title"
+           value="{{ form.get('title', '') }}" required>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="opportunity_type">Type</label>
+      <select class="form-control" id="opportunity_type" name="opportunity_type" required>
+        <option value="" disabled {% if not form.get('opportunity_type') %}selected{% endif %}>Select a type</option>
+        {% for t in types %}
+          <option value="{{ t }}" {% if form.get('opportunity_type') == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="category">Category</label>
+      <select class="form-control" id="category" name="category" required>
+        <option value="" disabled {% if not form.get('category') %}selected{% endif %}>Select a category</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if form.get('category') == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="country">Country</label>
+      <select class="form-control" id="country" name="country" required>
+        <option value="" disabled {% if not form.get('country') %}selected{% endif %}>Select a country</option>
+        <option value="Caribbean" {% if form.get('country') == 'Caribbean' %}selected{% endif %}>Caribbean (open to all countries)</option>
+        {% for c in countries %}
+          <option value="{{ c }}" {% if form.get('country') == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="min_age">Minimum age (optional)</label>
+      <input type="number" min="1" class="form-control" id="min_age" name="min_age"
+             value="{{ form.get('min_age', '') }}">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="max_age">Maximum age (optional)</label>
+      <input type="number" min="1" class="form-control" id="max_age" name="max_age"
+             value="{{ form.get('max_age', '') }}">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="education_level">Education level</label>
+      <select class="form-control" id="education_level" name="education_level">
+        <option value="">Any</option>
+        {% for e in education_levels %}
+          <option value="{{ e }}" {% if form.get('education_level') == e %}selected{% endif %}>{{ e }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="deadline">Deadline (leave blank if rolling)</label>
+      <input type="date" class="form-control" id="deadline" name="deadline"
+             value="{{ form.get('deadline', '') }}">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="4">{{ form.get('description', '') }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="application_link">Application link</label>
+    <input type="url" class="form-control" id="application_link" name="application_link"
+           placeholder="https://" value="{{ form.get('application_link', '') }}" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit for review</button>
+</form>
+{% endblock %}
