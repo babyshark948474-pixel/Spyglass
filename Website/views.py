@@ -16,7 +16,17 @@ def home():
         age = request.form.get('age', type=int)
         country = request.form.get('country')
         education = request.form.get('education')
-        interests = request.form.getlist('interests')  
+        interests =[i for i in  request.form.getlist('interests') if i in INTERESTS] 
+
+        if age is None or not 5 <= age <= 100:
+            flash('Please enter a valid age.', category='error')
+            return redirect(url_for('views.home'))
+        if country not in COUNTRIES: 
+            flash('Please choose a country from the list', category='error')
+            return redirect(url_for('views.home'))
+        if education not in EDUCATION_LEVELS:
+            flash('Please choose an education level from the list provided', category='error')
+            return redirect(url_for('views.home'))
 
         today = date.today()
         all_opportunities = Opportunities.query.filter(or_(Opportunities.deadline == None, Opportunities.deadline >= today)).all()
@@ -24,6 +34,8 @@ def home():
         scored_opportunities = []
 
         for opp in all_opportunities:
+            if opp.country not in (country, 'Caribbean'):
+                continue
             if opp.min_age is not None and age < opp.min_age:
                 continue
             if opp.max_age is not None and age > opp.max_age:

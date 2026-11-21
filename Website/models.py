@@ -37,7 +37,7 @@ class Opportunities(db.Model):
     min_age: Mapped[Optional[int]] = mapped_column(Integer)
     max_age: Mapped[Optional[int]] = mapped_column(Integer)
     education_level: Mapped[Optional[str]] = mapped_column(String(50))
-    opportunity_description: Mapped[Optional[str]] = mapped_column(String(255))
+    opportunity_description: Mapped[Optional[str]] = mapped_column(Text)
     application_link: Mapped[Optional[str]] = mapped_column(String(500))
     deadline: Mapped[Optional[datetime.date]] = mapped_column(Date)
 

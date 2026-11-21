@@ -4,7 +4,7 @@ import os
 from flask_login import LoginManager
 from dotenv import load_dotenv
 
-
+load_dotenv()
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -13,7 +13,7 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'SECRET STUFF')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get( 'DATABASE_URL', 'mysql+pymysql://root:NOPEAKING@localhost:3306/testdb')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get( 'DATABASE_URL', 'mysql+pymysql://root:nopeakin@localhost:3306/testdb')
 
     db.init_app(app)
     login_manager.init_app(app)
