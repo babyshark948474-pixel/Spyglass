@@ -16,6 +16,13 @@
       <p><strong>Type:</strong>{{ opp.opportunity_type }}</p>
       <p><strong>Category:</strong> {{ opp.category }}</p>
       <p><strong>Country:</strong> {{ opp.country }}</p>
+      <p><strong>Age:</strong>
+    {% if opp.min_age is not none and opp.max_age is not none %}{{ opp.min_age }} to {{ opp.max_age }}
+    {% elif opp.min_age is not none %}{{ opp.min_age }}+
+    {% elif opp.max_age is not none %}Up to {{ opp.max_age }}
+    {% else %}Any{% endif %}
+  </p>
+  <p><strong>Education:</strong> {{ opp.education_level or 'Any' }}</p> 
 
       {% if result.matched_criteria %}
         <p class="matched-on">

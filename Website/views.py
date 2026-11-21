@@ -65,7 +65,7 @@ def home():
                     'total': TOTAL_CRITERIA,
                 })
 
-        scored_opportunities.sort(key=lambda x: x['score'], reverse=True)
+        scored_opportunities.sort(key=lambda x: (-x['score'], x['opportunity'].deadline or date.max ))
         return render_template('results.html', results=scored_opportunities)
 
     return render_template('home.html', countries = COUNTRIES, education_levels=EDUCATION_LEVELS, interests_list = INTERESTS)
