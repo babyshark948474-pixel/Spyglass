@@ -62,18 +62,19 @@ def signup():
                          country=country, education_level=education, email=email)
             user.set_password(password1)
 
-            for name in interests:
-                interest = Interest.query.filter_by(interests=name).first()
-                if not interest:
-                    interest = Interest(interests=name)
-                    db.session.add(interest)
-                user.interest.append(interest)
+            with db.session.no_autoflush:
+                for name in interests:
+                    interest = Interest.query.filter_by(interests=name).first()
+        if not interest:
+            interest = Interest(interests=name)
+            db.session.add(interest)
+        user.interest.append(interest)
 
-            db.session.add(user)
-            db.session.commit()
+        db.session.add(user)
+        db.session.commit()
 
-            login_user(user, remember=True)
-            flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
+        login_user(user, remember=True)
+        flash('Account created!', category='success')
+        return redirect(url_for('views.home'))
 
     return render_template('sign_up.html')

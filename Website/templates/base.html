@@ -14,10 +14,29 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Pirata+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
     <title>{% block title %}SPYGLASS{% endblock %}</title>
 </head>
 <body>
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+    <svg class="brand-icon" viewBox="-2 -6 42 32" aria-hidden="true" focusable="false">
+    <g fill="currentColor" transform="rotate(-30 19 10)">
+      <rect x="1" y="7.5" width="7" height="5" rx="1.2"/>
+      <rect x="8" y="6" width="12" height="8" rx="1"/>
+      <rect x="20" y="4" width="14" height="12" rx="1"/>
+      <rect x="33" y="3" width="4" height="14" rx="1.5"/>
+    </g>
+    <g stroke="#10222e" stroke-width="1.2" transform="rotate(-30 19 10)">
+      <line x1="8" y1="6" x2="8" y2="14"/>
+      <line x1="20" y1="4" x2="20" y2="16"/>
+      <line x1="33" y1="3" x2="33" y2="17"/>
+    </g>
+    </svg>
+    SPYGLASS
+    </a>
         <button 
          class="navbar-toggler" 
          type="button"
@@ -53,7 +72,7 @@
             </button>
         </div>
         {% else %}
-        <div class="alert alert-success alter-dismissable fade show" role="alert">
+        <div class="alert alert-success alert-dismissable fade show" role="alert">
             {{message}}
             <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>

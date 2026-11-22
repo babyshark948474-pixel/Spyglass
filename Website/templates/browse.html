@@ -54,23 +54,8 @@
 <p>{{ results|length }} result{{ '' if results|length == 1 else 's' }}</p>
 
 {% for opp in results %}
-  <div class="opportunity-card">
-    <h2>{{ opp.title }}</h2>
-    <p><strong>Type:</strong> {{ opp.opportunity_type }}</p>
-    <p><strong>Category:</strong> {{ opp.category }}</p>
-    <p><strong>Country:</strong> {{ opp.country }}</p>
-    <p><strong>Age:</strong>
-      {% if opp.min_age is not none and opp.max_age is not none %}{{ opp.min_age }} to {{ opp.max_age }}
-     {% elif opp.min_age is not none %}{{ opp.min_age }}+
-     {% elif opp.max_age is not none %}Up to {{ opp.max_age }}
-     {% else %}Any{% endif %}
-  </p>
-  <p><strong>Education:</strong> {{ opp.education_level or 'Any' }}</p>
-    {% if opp.opportunity_description %}<p>{{ opp.opportunity_description }}</p>{% endif %}
-    {% if opp.deadline %}<p><strong>Deadline:</strong> {{ opp.deadline.strftime('%B %d, %Y') }}</p>{% endif %}
-    {% if opp.application_link %}<a href="{{ opp.application_link }}" target="_blank">Apply here</a>{% endif %}
-  </div>
+  {% include '_card.html' %}
 {% else %}
-  <p>No opportunities match those filters.</p>
+  <p>No treasure matches your profile yet matey!</p>
 {% endfor %}
 {% endblock %}

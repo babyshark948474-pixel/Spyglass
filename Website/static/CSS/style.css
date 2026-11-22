@@ -1,0 +1,216 @@
+
+
+:root {
+  --sea-deep: #272530;
+  --sea: #272530;
+  --parchment: #f1dcc7;
+  --parchment-deep: #d6c0a9;
+  --paper: #f7ece0;
+  --ink: #272530;
+  --rope: #987e63;
+  --gold: #c0a890;
+  --blood: #781301;
+  --blood-dark: #4e0c01;
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: 'Lora', Georgia, serif;
+  line-height: 1.65;
+  color: var(--ink);
+  background: radial-gradient(ellipse at 50% 0%, #f3e1cf 0%, var(--parchment-deep) 100%) fixed;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 960px;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Pirata One', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--sea-deep);
+}
+
+/* A twisted-rope rule under each page title */
+h1 {
+  position: relative;
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+}
+h1::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 220px;
+  height: 6px;
+  background: repeating-linear-gradient(135deg, var(--rope) 0 4px, transparent 4px 8px);
+}
+
+.lead { font-style: italic; }
+
+a { color: var(--blood); }
+a:hover { color: var(--sea); }
+
+:focus-visible {
+  outline: 3px solid var(--blood);
+  outline-offset: 2px;
+}
+
+/* ---------- Navbar ---------- */
+.navbar.bg-dark {
+  background-color: var(--sea-deep) !important;
+  border-bottom: 3px solid var(--blood);
+}
+.navbar-brand {
+  font-family: 'Pirata One', Georgia, serif;
+  font-size: 1.7rem;
+  color: var(--gold) !important;
+  letter-spacing: 0.04em;
+}
+.navbar-brand .brand-icon {
+  width: 1.5em;
+  height: auto;
+  vertical-align: -0.3em;
+  margin-right: 0.15em;
+}
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--parchment);
+  font-size: 1.05rem;
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: var(--gold);
+}
+
+/* ---------- Forms ---------- */
+label { font-weight: 600; }
+
+.form-control {
+  background-color: var(--paper);
+  border: 2px solid var(--rope);
+  border-radius: 3px;
+  color: var(--ink);
+}
+.form-control:focus {
+  background-color: #fffaf0;
+  border-color: var(--blood);
+  box-shadow: 0 0 0 0.2rem rgba(120, 19, 1, .25);
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rope);
+  border-radius: 3px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.checkbox-group label:has(input:checked) {
+  background: var(--sea);
+  border-color: var(--sea-deep);
+  color: var(--parchment);
+}
+.checkbox-group input { accent-color: var(--gold); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: 'Pirata One', Georgia, serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  border-radius: 3px;
+  transition: background-color 0.15s;
+}
+.btn-sm { font-size: 1rem; }
+.btn-primary {
+  background-color: var(--blood);
+  border-color: var(--blood-dark);
+  color: var(--parchment);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--blood-dark);
+  border-color: var(--blood-dark);
+  color: var(--parchment);
+}
+.btn-secondary {
+  background-color: var(--sea);
+  border-color: var(--sea-deep);
+  color: var(--parchment);
+}
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: var(--sea-deep);
+  border-color: var(--sea-deep);
+  color: var(--parchment);
+}
+
+/* ---------- Flash messages ---------- */
+.alert {
+  border: 1px solid var(--rope);
+  border-left-width: 6px;
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.alert-danger  { border-left-color: var(--blood); }
+.alert-success { border-left-color: var(--sea); }
+.alert-warning { border-left-color: var(--gold); }
+
+/* ---------- Card contents---------- */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+.tag {
+  display: inline-block;
+  padding: 0.1rem 0.65rem;
+  border: 1px solid var(--rope);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  background: transparent;
+}
+.tag-type {
+  background: var(--sea);
+  border-color: var(--sea-deep);
+  color: var(--parchment);
+}
+
+.matched-on {
+  font-style: italic;
+  color: var(--sea);
+}
+
+.card-facts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.9rem;
+}
+.card-facts li { margin-bottom: 0.15rem; }
+.card-facts .deadline { color: var(--blood); font-weight: 600; }
+.card-facts .deadline strong { color: var(--blood); }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 575px) {
+  h1 { font-size: 2.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

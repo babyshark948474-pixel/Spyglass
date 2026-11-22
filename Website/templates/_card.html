@@ -1,0 +1,44 @@
+{# Shared opportunity card. Needs `opp`. Pass `match` (a scored result) to show the wax seal. #}
+<article class="opportunity-card">
+  {% if match %}
+    <div class="match-badge" role="img" aria-label="{{ match.score }} of {{ match.total }} criteria matched">
+      <span class="rose" aria-hidden="true"></span>
+      <span class="seal-score">{{ match.score }}/{{ match.total }}</span>
+    </div>
+  {% endif %}
+
+  <h2>{{ opp.title }}</h2>
+
+  <div class="card-tags">
+    <span class="tag tag-type">{{ opp.opportunity_type }}</span>
+    <span class="tag">{{ opp.category }}</span>
+    <span class="tag">{{ 'Caribbean-wide' if opp.country == 'Caribbean' else opp.country }}</span>
+  </div>
+
+  {% if match and match.matched_criteria %}
+    <p class="matched-on">Matched on: {{ match.matched_criteria | join(', ') }}</p>
+  {% endif %}
+
+  {% if opp.opportunity_description %}
+    <p>{{ opp.opportunity_description }}</p>
+  {% endif %}
+
+  <ul class="card-facts">
+    <li><strong>Age:</strong>
+      {% if opp.min_age is not none and opp.max_age is not none %}{{ opp.min_age }} to {{ opp.max_age }}
+      {% elif opp.min_age is not none %}{{ opp.min_age }}+
+      {% elif opp.max_age is not none %}Up to {{ opp.max_age }}
+      {% else %}Any{% endif %}
+    </li>
+    <li><strong>Education:</strong> {{ opp.education_level or 'Any' }}</li>
+    {% if opp.deadline %}
+      <li class="deadline"><strong>Deadline:</strong> {{ opp.deadline.strftime('%B %d, %Y') }}</li>
+    {% else %}
+      <li><strong>Deadline:</strong> Rolling</li>
+    {% endif %}
+  </ul>
+
+  {% if opp.application_link %}
+    <a class="btn btn-primary btn-sm" href="{{ opp.application_link }}" target="_blank" rel="noopener">Apply here</a>
+  {% endif %}
+</article>
