@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from . import db
 from .models import Users, Interest
+from .constants import COUNTRIES, EDUCATION_LEVELS, INTERESTS
 
 auth = Blueprint('auth', __name__)
 
@@ -44,31 +45,49 @@ def signup():
         age = request.form.get('age', type=int)
         country = request.form.get('country')
         education = request.form.get('education')
-        interests = request.form.getlist('interests')
+        interests = [i for i in request.form.getlist('interests') if i in INTERESTS]
         email = request.form.get('email', '').strip().lower()
         password1 = request.form.get('password1', '')
         password2 = request.form.get('password2', '')
 
-        if Users.query.filter_by(email=email).first():
-            flash('An account with that email already exists.', category='error')
+        error = None
+        if not first_name or not last_name:
+            error = 'Please enter your first and last name.'
+        elif age is None or not 5 <= age <= 100:
+            error = 'Please enter a valid age.'
+        elif country not in COUNTRIES:
+            error = 'Please choose a country from the list.'
+        elif education not in EDUCATION_LEVELS:
+            error = 'Please choose an education level from the list.'
+        elif not email:
+            error = 'Please enter an email address.'
+        elif Users.query.filter_by(email=email).first():
+            error = 'An account with that email already exists.'
         elif len(password1) < 7:
-            flash('Password must be at least 7 characters.', category='error')
+            error = 'Password must be at least 7 characters.'
         elif password1 != password2:
-            flash('Passwords must match.', category='error')
+            error = 'Passwords must match.'
         elif not interests:
-            flash('Pick at least one interest.', category='error')
-        else:
-            user = Users(first_name=first_name, last_name=last_name, age=age,
-                         country=country, education_level=education, email=email)
-            user.set_password(password1)
+            error = 'Pick at least one interest.'
 
-            with db.session.no_autoflush:
-                for name in interests:
-                    interest = Interest.query.filter_by(interests=name).first()
-        if not interest:
-            interest = Interest(interests=name)
-            db.session.add(interest)
-        user.interest.append(interest)
+        if error:
+            flash(error, category='error')
+            return render_template('sign_up.html', form=request.form,
+                                   countries=COUNTRIES,
+                                   education_levels=EDUCATION_LEVELS,
+                                   interests_list=INTERESTS)
+
+        user = Users(first_name=first_name, last_name=last_name, age=age,
+                     country=country, education_level=education, email=email)
+        user.set_password(password1)
+
+        with db.session.no_autoflush:
+            for name in interests:
+                interest = Interest.query.filter_by(interests=name).first()
+                if not interest:
+                    interest = Interest(interests=name)
+                    db.session.add(interest)
+                user.interest.append(interest)
 
         db.session.add(user)
         db.session.commit()
@@ -77,4 +96,6 @@ def signup():
         flash('Account created!', category='success')
         return redirect(url_for('views.home'))
 
-    return render_template('sign_up.html')
+    return render_template('sign_up.html', form={}, countries=COUNTRIES,
+                           education_levels=EDUCATION_LEVELS,
+                           interests_list=INTERESTS)
